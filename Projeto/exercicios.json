@@ -1,0 +1,48 @@
+{
+    "peito": [
+        "supino reto",
+        "supino inclinado",
+        "crucifixo",
+        "crossover",
+        "flexao de braco"
+    ],
+    "costas": [
+        "puxada frente",
+        "remada curvada",
+        "remada baixa",
+        "barra fixa",
+        "levantamento terra"
+    ],
+    "pernas": [
+        "agachamento",
+        "leg press",
+        "cadeira extensora",
+        "mesa flexora",
+        "avanco"
+    ],
+    "ombro": [
+        "desenvolvimento militar",
+        "elevacao lateral",
+        "elevacao frontal",
+        "remada alta",
+        "encolhimento"
+    ],
+    "biceps": [
+        "rosca direta",
+        "rosca alternada",
+        "rosca martelo",
+        "rosca scott"
+    ],
+    "triceps": [
+        "triceps pulley",
+        "triceps testa",
+        "triceps corda",
+        "mergulho"
+    ],
+    "abdomen": [
+        "abdominal reto",
+        "abdominal infra",
+        "prancha",
+        "abdominal obliquo"
+    ]
+}
