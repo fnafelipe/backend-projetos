@@ -413,6 +413,9 @@ def pagina_perfil(usuario):
     console.print(Rule(style='menus'))
     print('')
 
+def funcao_teste():
+    print('Teste git')
+
 def perfil(usuario, usuarios):
     while True:
         pagina_perfil(usuario)
