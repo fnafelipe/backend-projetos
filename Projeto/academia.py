@@ -414,7 +414,7 @@ def pagina_perfil(usuario):
     print('')
 
 def funcao_teste():
-    print('Teste git')
+    pass
 
 def perfil(usuario, usuarios):
     while True:
