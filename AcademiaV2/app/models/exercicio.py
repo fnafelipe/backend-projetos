@@ -2,10 +2,55 @@ from utils.auxiliares import confirmar
 
 class Exercicio:
     def __init__(self, nome, grupo, series, repeticoes):
-        self.nome = nome
-        self.grupo = grupo
-        self.series = series
-        self.repeticoes = repeticoes
+        self.__nome = nome
+        self.__grupo = grupo
+        self.__series = series
+        self.__repeticoes = repeticoes
+
+    @property
+    def nome(self):
+        return self.__nome
+    @property
+    def grupo(self):
+        return self.__grupo
+    @property
+    def series(self):
+        return self.__series
+    @property
+    def repeticoes(self):
+        return self.__repeticoes
+
+    @nome.setter
+    def nome(self, nome):
+        if not isinstance(nome, str):
+            raise TypeError('O nome do exercicio deve ser uma string!')
+        if not (4 <= len(nome)):
+            raise ValueError('O nome do exercicio deve ter pelo menos 4 letras!')
+        self.__nome = nome
+
+    @grupo.setter
+    def grupo(self, grupo):
+        GRUPOS_MUSCULARES = ('peito', 'costas', 'biceps', 'triceps', 'ombros', 'quadriceps', 'posterior', 'panturrilha')
+        if grupo.lower() not in GRUPOS_MUSCULARES:
+            grupos = ', '.join(GRUPOS_MUSCULARES)
+            raise ValueError(f'O grupo deve ser válido! {grupos}')
+        self.__grupo = grupo
+
+    @series.setter
+    def series(self, series):
+        if not isinstance(series, int):
+            raise TypeError('As series devem ser numeros inteiros!')
+        if series <= 0:
+            raise ValueError('As series não podem ser negativas ou nulas!')
+        self.__series = series
+
+    @repeticoes.setter
+    def repeticoes(self, repeticoes):
+        if not isinstance(repeticoes, int):
+            raise TypeError('As repetições devem ser numeros inteiros!')
+        if repeticoes <= 0:
+            raise ValueError('As repetições não podem ser negativas ou nulas!')
+        self.__repeticoes = repeticoes
 
     def info(self):
         print(self.nome)
@@ -31,7 +76,7 @@ class Exercicio:
         else:
             print('Repetições não atualizadas!')
 
-    def exercicio_para_dict(self):
+    def para_dict(self):
         exercicio = {
             'nome' : self.nome,
             'grupo' : self.grupo,

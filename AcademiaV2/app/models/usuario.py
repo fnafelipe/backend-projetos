@@ -1,67 +1,55 @@
-from utils.auxiliares import confirmar
+
 
 class Usuario:
-    def __init__(self, nome, idade, peso, altura, sexo):
+
+    def __init__(self, nome, idade, sexo):
         self.nome = nome
         self.idade = idade
-        self.peso = peso
-        self.altura = altura
         self.sexo = sexo
-        self.treino = []
+
+    @property
+    def nome(self):
+        return self.__nome
+    @property
+    def idade(self):
+        return self.__idade
+    @property
+    def sexo(self):
+        return self.__sexo
+
+    @nome.setter
+    def nome(self, nome):
+        if not isinstance(nome, str):
+            raise TypeError('O nome da usuário deve ser um str!')
+        if not (4 <= len(nome)):
+            raise ValueError('O nome deve possuir ao menos 4 letras!')
+        self.__nome = nome
+
+    @idade.setter
+    def idade(self, idade):
+        IDADE_MINIMA, IDADE_MAXIMA = 18, 120
+        if not isinstance(idade, int):
+            raise TypeError('A idade deve ser um int!')
+        if not (IDADE_MINIMA <= idade <= IDADE_MAXIMA):
+            raise ValueError('A idade deve estar entre 18 e 120 anos!')
+        self.__idade = idade
+
+    @sexo.setter
+    def sexo(self, sexo):
+        SEXOS = ('masculino', 'feminino')
+        if sexo.lower() not in SEXOS:
+            raise ValueError('Sexo deve ser Masculino ou Feminino!')
+        self.__sexo = sexo.lower()
 
     def info(self):
-        print(self.nome)
-        print(self.idade)
-        print(self.peso)
-        print(self.altura)
-        print(self.sexo)
-        print([exercicio.nome for exercicio in self.treino])
+        print(f'Nome: {self.nome}')
+        print(f'Idade: {self.idade} anos')
+        print(f'Sexo: {self.sexo}')
 
-    def atualizar_peso(self, peso_novo):
-        print(f'Peso atual: {self.peso}')
-        print(f'Peso novo: {peso_novo}')
-
-        if confirmar(f'Deseja atualizar o peso de {self.nome}?'):
-            self.peso = peso_novo
-            print(f'Peso de {self.nome} atualizado.')
-
-        else:
-            print(f'Peso não atualizado!')
-
-    def atualizar_altura(self, altura_nova):
-        print(f'Altura atual: {self.altura}')
-        print(f'Altura nova: {altura_nova}')
-
-        if confirmar(f'Deseja atualizar a altura de {self.nome}?'):
-            self.altura = altura_nova
-            print(f'Altura de {self.nome} atualizada.')
-
-        else:
-            print(f'Altura não atualizada!')
-
-    def adicionar_exercicio(self, exercicio_novo):
-        if confirmar(f'Deseja adicionar o exercicio {exercicio_novo.nome} ao treino de {self.nome}?'):
-            self.treino.append(exercicio_novo)
-            print('Exercicio adicionado')
-        else:
-            print('Exercicio não adicionado!')
-
-    def remover_exercicio(self, exercicio_procurado):
-        if exercicio_procurado not in self.treino:
-            print('Exercicio não encontrado')
-        else:
-            if confirmar(f'Deseja remover o exercicio {exercicio_procurado.nome} do treino de {self.nome}?'):
-                self.treino.remove(exercicio_procurado)
-                print('Exercicio removido.')
-            else:
-                print('Exercicio não removido!')
-
-    def usuario_para_dict(self):
+    def para_dict(self):
         dicionario = {
             'nome' : self.nome,
             'idade' : self.idade,
-            'peso' : self.peso,
-            'altura' : self.altura,
-            'sexo' : self.sexo,
+            'sexo' : self.sexo
         }
         return dicionario
