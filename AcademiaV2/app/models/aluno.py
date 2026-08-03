@@ -1,16 +1,21 @@
 
+from models.pessoa import Pessoa
 from models.treino import Treino
-from models.usuario import Usuario
 
-class Aluno(Usuario):
-    def __init__(self, nome, idade, sexo, peso, altura):
+
+class Aluno(Pessoa):
+    def __init__(self, matricula, nome, idade, sexo, peso, altura):
         super().__init__(nome, idade, sexo)
+        self.matricula = matricula
         self.__historico_peso = []
         self.__historico_altura = []
         self.peso = peso
         self.altura = altura
         self.__treinos = []
 
+    @property
+    def matricula(self):
+        return self.__matricula
     @property
     def peso(self):
         return self.__peso
@@ -26,6 +31,14 @@ class Aluno(Usuario):
     @property
     def treinos(self):
         return self.__treinos
+
+    @matricula.setter
+    def matricula(self, matricula):
+        if not isinstance(matricula, int):
+            raise TypeError('A matricula deve ser um int!')
+        if matricula <= 0:
+            raise ValueError('A matricula deve ser um número positivo!')
+        self.__matricula = matricula
 
     @peso.setter
     def peso(self, peso):
@@ -46,6 +59,9 @@ class Aluno(Usuario):
             raise ValueError('A altura deve estar entre 1.25 e 2.25 Metros!')
         self.__altura = altura
         self.__historico_altura.insert(0, self.altura)
+
+    def identificacao(self):
+        return self.matricula
 
     def atualizar_peso(self, peso):
         self.peso = peso
@@ -75,11 +91,25 @@ class Aluno(Usuario):
         for treino in self.treinos:
             treino.info()
 
-    def para_dict(self):
-        dicionario = super().para_dict()
+    def to_dict(self):
+        dicionario = super().to_dict()
         dicionario.update({'peso' : self.peso,
                            'historico_peso' : self.historico_peso,
                            'altura' : self.altura,
                            'historico_altura' : self.historico_altura,
-                           'treinos' : [treino.para_dict() for treino in self.treinos]})
+                           'treinos' : [treino.to_dict() for treino in self.treinos]})
         return dicionario
+
+    @classmethod
+    def from_dict(cls, dicionario):
+        return cls(
+            nome = dicionario['nome'],
+            idade = dicionario['idade'],
+            sexo = dicionario['sexo'],
+            matricula = dicionario['matricula'],
+            peso = dicionario['peso'],
+            historico_peso = dicionario['historico_peso'],
+            altura = dicionario['altura'],
+            historico_altura = dicionario['historico_altura'],
+            treinos = [Treino.from_dict(treino) for treino in dicionario['treinos']]
+        )

@@ -1,6 +1,8 @@
 
+from abc import ABC, abstractmethod
 
-class Usuario:
+
+class Pessoa(ABC):
 
     def __init__(self, nome, idade, sexo):
         self.nome = nome
@@ -19,8 +21,8 @@ class Usuario:
 
     @nome.setter
     def nome(self, nome):
-        if not isinstance(nome, str):
-            raise TypeError('O nome da usuário deve ser um str!')
+        if not isinstance(nome, str) or not nome.replace(" ", "").isalpha():
+            raise TypeError('O nome deve ser um str com somente letras!')
         if not (4 <= len(nome)):
             raise ValueError('O nome deve possuir ao menos 4 letras!')
         self.__nome = nome
@@ -37,19 +39,29 @@ class Usuario:
     @sexo.setter
     def sexo(self, sexo):
         SEXOS = ('masculino', 'feminino')
+        if not isinstance(sexo, str):
+            raise TypeError('O sexo deve ser um str!')
         if sexo.lower() not in SEXOS:
             raise ValueError('Sexo deve ser Masculino ou Feminino!')
         self.__sexo = sexo.lower()
 
+    @abstractmethod
+    def identificacao(self):
+        pass
+
+    @abstractmethod
     def info(self):
         print(f'Nome: {self.nome}')
         print(f'Idade: {self.idade} anos')
         print(f'Sexo: {self.sexo}')
-
-    def para_dict(self):
+    
+    @abstractmethod
+    def to_dict(self):
         dicionario = {
             'nome' : self.nome,
             'idade' : self.idade,
             'sexo' : self.sexo
         }
         return dicionario
+
+

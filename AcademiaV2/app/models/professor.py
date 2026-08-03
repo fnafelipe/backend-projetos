@@ -1,9 +1,10 @@
 from models.aluno import Aluno
-from models.usuario import Usuario
+from models.pessoa import Pessoa
 
-class Professor(Usuario):
 
-    def __init__(self, nome, idade, sexo, cref, especialidade):
+class Professor(Pessoa):
+
+    def __init__(self, cref, nome, idade, sexo, especialidade):
         super().__init__(nome, idade, sexo)
         self.cref = cref
         self.especialidade = especialidade
@@ -34,12 +35,15 @@ class Professor(Usuario):
 
     @especialidade.setter
     def especialidade(self, especialidade):
-        ESPECIALIDADES = ('musculacao', 'crossfit', 'funcional', 'pilates')
+        ESPECIALIDADES = ('musculação', 'crossfit', 'funcional', 'pilates')
         if not isinstance(especialidade, str):
             raise TypeError('A especialidade deve ser um str!')
         if especialidade.lower() not in ESPECIALIDADES:
             raise ValueError(f'A especialidade deve ser válida {ESPECIALIDADES}')
         self.__especialidade = especialidade.lower()
+
+    def identificacao(self):
+        return self.cref
 
     def adicionar_aluno(self, aluno):
         if not isinstance(aluno, Aluno):
@@ -59,13 +63,24 @@ class Professor(Usuario):
         super().info()
         print(f'Cref: {self.cref}')
         print(f'Especialidade: {self.especialidade}')
-        print(f'Alunos:')
+        print('Alunos:')
         for aluno in self.alunos:
             aluno.info()
 
-    def para_dict(self):
-        dicionario = super().para_dict()
+    def to_dict(self):
+        dicionario = super().to_dict()
         dicionario.update({'cref' : self.cref,
                            'especialidade' : self.especialidade,
-                           'alunos' : [aluno.para_dict() for aluno in self.alunos]})
+                           'alunos' : [aluno.to_dict() for aluno in self.alunos]})
         return dicionario
+
+    @classmethod
+    def from_dict(cls, dicionario):
+        return cls(
+            nome = dicionario['nome'],
+            idade = dicionario['idade'],
+            sexo = dicionario['sexo'],
+            cref = dicionario['cref'],
+            especialidade = dicionario['especialidade'],
+            alunos = [Aluno.from_dict(aluno) for aluno in dicionario['alunos']]
+        )

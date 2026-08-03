@@ -1,0 +1,4 @@
+
+
+def estatisticas(sistema):
+    pass

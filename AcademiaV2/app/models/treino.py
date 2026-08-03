@@ -1,11 +1,12 @@
-from utils.auxiliares import confirmar
 from models.exercicio import Exercicio
+from utils.auxiliares import confirmar
+
 
 class Treino:
 
-    def __init__(self, nome, exercicios):
-        self.__nome = nome
-        self.__exercicios = exercicios
+    def __init__(self, nome):
+        self.nome = nome
+        self.exercicios = []
 
     @property
     def nome(self):
@@ -47,8 +48,16 @@ class Treino:
         for exercicio in self.exercicios:
             exercicio.info()
 
-    def para_dict(self):
+    def to_dict(self):
         treino = {
             'nome' : self.nome,
-            'exercicios' : [exercicio.para_dict for exercicio in self.exercicios]
+            'exercicios' : [exercicio.to_dict() for exercicio in self.exercicios]
         }
+        return treino
+
+    @classmethod
+    def from_dict(cls, dicionario):
+        return cls(
+            nome = dicionario['nome'],
+            exercicios = [Exercicio.from_dict(exercicio) for exercicio in dicionario['exercicios']]
+        )

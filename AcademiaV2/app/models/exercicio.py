@@ -1,11 +1,12 @@
 from utils.auxiliares import confirmar
 
+
 class Exercicio:
     def __init__(self, nome, grupo, series, repeticoes):
-        self.__nome = nome
-        self.__grupo = grupo
-        self.__series = series
-        self.__repeticoes = repeticoes
+        self.nome = nome
+        self.grupo = grupo
+        self.series = series
+        self.repeticoes = repeticoes
 
     @property
     def nome(self):
@@ -76,7 +77,7 @@ class Exercicio:
         else:
             print('Repetições não atualizadas!')
 
-    def para_dict(self):
+    def to_dict(self):
         exercicio = {
             'nome' : self.nome,
             'grupo' : self.grupo,
@@ -84,3 +85,12 @@ class Exercicio:
             'repeticoes' : self.repeticoes
         }
         return exercicio
+
+    @classmethod
+    def from_dict(cls, dicionario):
+        return cls(
+            nome = dicionario['nome'],
+            grupo = dicionario['grupo'],
+            series = dicionario['series'],
+            repeticoes = dicionario['repeticoes']
+        )
